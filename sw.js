@@ -1,5 +1,5 @@
 
-const SITE_BASE_HREF = 'http://localhost:8888/';//modify this to your url and port
+const SITE_BASE_HREF = 'http://localhost:8888/angular-app/';//modify this to your url and port
 
 // also replace all occurences of 'angular-app' 
 // to your folder's relative directory from the base_href defined above
@@ -45,6 +45,22 @@ catch(error) {
 
 try {
     const foundBaseHref = replace.sync(baseHrefInstances);
+    if (foundBaseHref && foundBaseHref.length > 0) {
+        try {
+            const override = replace.sync(serviceWorkerURLFix);
+            console.log('Changes made: ', override.join(', '))
+        }
+        catch (error) {
+            console.error('Error occurred while overriding default service worker URL behavior: ', error)
+        }
+    }
+    else {
+        console.log('baseHref was not set; no URL matching changes needed', foundBaseHref);
+    }
+}
+catch (error) {
+    console.error('Error occurred while looking for baseHref: ', error);
+}BaseHref = replace.sync(baseHrefInstances);
     if (foundBaseHref && foundBaseHref.length > 0) {
         try {
             const override = replace.sync(serviceWorkerURLFix);
